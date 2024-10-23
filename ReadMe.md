@@ -1,6 +1,6 @@
 # VectorizedBacktester
 
-**Building a professional-grade trading backtester from scratch using Python.** Developed a powerful tool that connects to real-time market data, tests multiple trading strategies, and performs sophisticated performance analysis.
+**Building a professional-grade trading backtester from scratch using Python.** Developed a powerful tool that connects to real-time market data, tests multiple trading strategies, and performs sophisticated performance analysis. Using Python libraries such as yfinance, numpy and pandas.
 
 The **VectorizedBacktester** class simplifies backtesting by automating data downloads, return calculations, and the evaluation of trading strategies.
 
