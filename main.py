@@ -52,4 +52,24 @@ class VectorizedBacktester:
         data['strategy'] = data['position'].shift(1) * data['returns']
         data['trades'] = data.position.diff().fillna(0).abs()
         data['strategy'] = data['strategy'] - data['trades'] * self.tc
+        
+        #Cumulative returns
+        data['creturns'] = data['returns'].cumsum().apply(np.exp)
+        data['cstrategy'] = data['strategy'].cumsum().apply(np.exp)
+    
+        # Calculate the daily strategy value
+        data['strategy_value'] = self.amount * data['cstrategy']
+        data['market_value'] = self.amount * data['creturns']
+
+        # Calculate the drop down from the maximum
+        data['peak'] = data['strategy_value'].cummax()
+        data['drawdown'] = (data['strategy_value'] - data['peak']) / data['peak']
+
+        # Store the results
+        self.results = data
+
+        metrics = self.calculate_metrics()
+
+        return metrics
+    
     
