@@ -35,3 +35,12 @@ class VectorizedBacktester:
         '''imports the data from Yahoo Finance and creates a DataFrame with prices'''
         ticker = yf.ticker(self.symbol)
         raw = ticker.history(start=self.start, end=self.end, interval='1d')
+        raw['returns'] = np.log(raw['Close'] / raw['Close'].shift(1))
+        raw['price'] = raw['Close']
+        self.data = raw
+    
+    def set_parameters(self, **kwargs):
+        '''Set the parameters for the strategy'''
+
+        for key in kwargs.keys():
+            setattr(self, key, kwargs[key])
