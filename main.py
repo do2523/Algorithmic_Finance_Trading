@@ -73,3 +73,20 @@ class VectorizedBacktester:
         return metrics
     
     
+    def calculate_metrics(self):
+        '''Calculates various performance metrics'''
+        if self.results is None:
+            return None
+        
+        data = self.results
+
+        strategy_ret = self.results['strategy']
+
+        # Basic Metrics
+        total_return = (data['strategy_value'].iloc[-1] - self.amount) / self.amount
+        market_return = (data['market_value'].iloc[-1] - self.amount) / self.amount
+
+        # Risk Metrics
+        volatility = np.std(strategy_ret) * np.sqrt(252)
+        sharpes_ratio = (np.mean(strategy_ret) / volatility)
+        sortino_ratio = np.mean(strategy_ret) / np.std(strategy_ret[strategy_ret < 0]) * np.sqrt(252)
