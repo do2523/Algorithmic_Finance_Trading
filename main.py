@@ -44,3 +44,12 @@ class VectorizedBacktester:
 
         for key in kwargs.keys():
             setattr(self, key, kwargs[key])
+    
+    def test_strategy(self):
+        '''Backtests the trading strategy and calculates comprehensive metrics'''
+        data = self.data.copy().dropna()
+        data['position'] = self.generate_signals()
+        data['strategy'] = data['position'].shift(1) * data['returns']
+        data['trades'] = data.position.diff().fillna(0).abs()
+        data['strategy'] = data['strategy'] - data['trades'] * self.tc
+    
