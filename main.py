@@ -21,3 +21,17 @@ class VectorizedBacktester:
     tc: float
         proportional transaction costs per trade (0.5% = 0.005)
     '''
+
+    def __init__(self, symbol, start, end, amount, tc):
+        self.symbol = symbol
+        self.start = start
+        self.end = end
+        self.amount = amount
+        self.tc = tc
+        self.results = None
+        self.get_data()
+
+    def get_data(self):
+        '''imports the data from Yahoo Finance and creates a DataFrame with prices'''
+        ticker = yf.ticker(self.symbol)
+        raw = ticker.history(start=self.start, end=self.end, interval='1d')
